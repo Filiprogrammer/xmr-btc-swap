@@ -480,7 +480,11 @@ pub struct KrakenRate {
 }
 
 impl KrakenRate {
-    pub fn new(ask_spread: Decimal, price_updates: kraken::PriceUpdates, min_price: bitcoin::Amount) -> Self {
+    pub fn new(
+        ask_spread: Decimal,
+        price_updates: kraken::PriceUpdates,
+        min_price: bitcoin::Amount,
+    ) -> Self {
         Self {
             ask_spread,
             price_updates,
