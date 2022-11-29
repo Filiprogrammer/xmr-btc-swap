@@ -503,7 +503,7 @@ impl LatestRate for KrakenRate {
         if (update.ask < self.min_price) {
             price = self.min_price;
         }
-        
+
         // let price = MAX(update.ask, self.min_price);
         let rate = Rate::new(price, self.ask_spread);
 
