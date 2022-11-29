@@ -492,7 +492,8 @@ impl LatestRate for KrakenRate {
 
     fn latest_rate(&mut self) -> Result<Rate, Self::Error> {
         let update = self.price_updates.latest_update()?;
-        let rate = Rate::new(update.ask, self.ask_spread);
+        let price = MAX(update.ask, config.min_price);
+        let rate = Rate::new(price, self.ask_spread);
 
         Ok(rate)
     }

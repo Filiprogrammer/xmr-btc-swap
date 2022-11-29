@@ -83,6 +83,7 @@ fn default_asb_data_dir() -> Result<PathBuf> {
 const DEFAULT_MIN_BUY_AMOUNT: f64 = 0.002f64;
 const DEFAULT_MAX_BUY_AMOUNT: f64 = 0.02f64;
 const DEFAULT_SPREAD: f64 = 0.02f64;
+const DEFAULT_MIN_PRICE: f64 = 0.0f64;
 
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -158,6 +159,8 @@ pub struct Maker {
     #[serde(with = "::bitcoin::util::amount::serde::as_btc")]
     pub max_buy_btc: bitcoin::Amount,
     pub ask_spread: Decimal,
+    #[serde(with = "::bitcoin::util::amount::serde::as_btc")]
+    pub min_price: bitcoin::Amount,
     pub price_ticker_ws_url: Url,
 }
 
@@ -289,6 +292,12 @@ pub fn query_user_for_initial_config(testnet: bool) -> Result<Config> {
     }
     let ask_spread = Decimal::from_f64(ask_spread).context("Unable to parse spread")?;
 
+    let min_price = Input::with_theme(&ColorfulTheme::default())
+        .with_prompt("Enter minimum price per Monero as Bitcoin amount you are willing to accept or hit enter to use default.")
+        .default(DEFAULT_MIN_PRICE)
+        .interact_text()?;
+    let min_price = bitcoin::Amount::from_btc(min_price);
+
     let rendezvous_point = Input::<Multiaddr>::with_theme(&ColorfulTheme::default())
         .with_prompt("Do you want to advertise your ASB instance with a rendezvous node? Enter an empty string if not.")
         .allow_empty(true)
@@ -326,6 +335,7 @@ pub fn query_user_for_initial_config(testnet: bool) -> Result<Config> {
             min_buy_btc: min_buy,
             max_buy_btc: max_buy,
             ask_spread,
+            min_price,
             price_ticker_ws_url: defaults.price_ticker_ws_url,
         },
     })
@@ -369,6 +379,7 @@ mod tests {
                 min_buy_btc: bitcoin::Amount::from_btc(DEFAULT_MIN_BUY_AMOUNT).unwrap(),
                 max_buy_btc: bitcoin::Amount::from_btc(DEFAULT_MAX_BUY_AMOUNT).unwrap(),
                 ask_spread: Decimal::from_f64(DEFAULT_SPREAD).unwrap(),
+                min_price: bitcoin::Amount::from_btc(DEFAULT_MIN_PRICE).unwrap(),
                 price_ticker_ws_url: defaults.price_ticker_ws_url,
             },
         };
@@ -412,6 +423,7 @@ mod tests {
                 min_buy_btc: bitcoin::Amount::from_btc(DEFAULT_MIN_BUY_AMOUNT).unwrap(),
                 max_buy_btc: bitcoin::Amount::from_btc(DEFAULT_MAX_BUY_AMOUNT).unwrap(),
                 ask_spread: Decimal::from_f64(DEFAULT_SPREAD).unwrap(),
+                min_price: bitcoin::Amount::from_btc(DEFAULT_MIN_PRICE).unwrap(),
                 price_ticker_ws_url: defaults.price_ticker_ws_url,
             },
         };
