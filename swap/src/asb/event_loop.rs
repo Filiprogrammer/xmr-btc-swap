@@ -500,7 +500,7 @@ impl LatestRate for KrakenRate {
         let update = self.price_updates.latest_update()?;
         let price = update.ask;
 
-        if (update.ask < self.min_price) {
+        if update.ask < self.min_price {
             price = self.min_price;
         }
 
