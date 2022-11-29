@@ -476,13 +476,15 @@ impl LatestRate for FixedRate {
 pub struct KrakenRate {
     ask_spread: Decimal,
     price_updates: kraken::PriceUpdates,
+    min_price: bitcoin::Amount
 }
 
 impl KrakenRate {
-    pub fn new(ask_spread: Decimal, price_updates: kraken::PriceUpdates) -> Self {
+    pub fn new(ask_spread: Decimal, price_updates: kraken::PriceUpdates, min_price: bitcoin::Amount) -> Self {
         Self {
             ask_spread,
             price_updates,
+            min_price
         }
     }
 }
@@ -492,7 +494,7 @@ impl LatestRate for KrakenRate {
 
     fn latest_rate(&mut self) -> Result<Rate, Self::Error> {
         let update = self.price_updates.latest_update()?;
-        let price = MAX(update.ask, config.min_price);
+        let price = MAX(update.ask, self.min_price);
         let rate = Rate::new(price, self.ask_spread);
 
         Ok(rate)
