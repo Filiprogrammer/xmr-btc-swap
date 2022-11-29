@@ -476,7 +476,7 @@ impl LatestRate for FixedRate {
 pub struct KrakenRate {
     ask_spread: Decimal,
     price_updates: kraken::PriceUpdates,
-    min_price: bitcoin::Amount
+    min_price: bitcoin::Amount,
 }
 
 impl KrakenRate {
@@ -484,7 +484,7 @@ impl KrakenRate {
         Self {
             ask_spread,
             price_updates,
-            min_price
+            min_price,
         }
     }
 }

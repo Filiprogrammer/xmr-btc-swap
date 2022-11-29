@@ -140,7 +140,11 @@ async fn main() -> Result<()> {
                 }
             };
 
-            let kraken_rate = KrakenRate::new(config.maker.ask_spread, kraken_price_updates, config.maker.min_price);
+            let kraken_rate = KrakenRate::new(
+                config.maker.ask_spread,
+                kraken_price_updates,
+                config.maker.min_price
+            );
             let namespace = XmrBtcNamespace::from_is_testnet(testnet);
 
             let mut swarm = swarm::asb(
