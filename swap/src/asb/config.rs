@@ -296,7 +296,7 @@ pub fn query_user_for_initial_config(testnet: bool) -> Result<Config> {
         .with_prompt("Enter minimum price per Monero as Bitcoin amount you are willing to accept or hit enter to use default.")
         .default(DEFAULT_MIN_PRICE)
         .interact_text()?;
-    let min_price = bitcoin::Amount::from_btc(min_price);
+    let min_price = bitcoin::Amount::from_btc(min_price)?;
 
     let rendezvous_point = Input::<Multiaddr>::with_theme(&ColorfulTheme::default())
         .with_prompt("Do you want to advertise your ASB instance with a rendezvous node? Enter an empty string if not.")
