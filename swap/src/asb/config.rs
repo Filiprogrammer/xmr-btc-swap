@@ -83,7 +83,7 @@ fn default_asb_data_dir() -> Result<PathBuf> {
 const DEFAULT_MIN_BUY_AMOUNT: f64 = 0.002f64;
 const DEFAULT_MAX_BUY_AMOUNT: f64 = 0.02f64;
 const DEFAULT_SPREAD: f64 = 0.02f64;
-const DEFAULT_MIN_PRICE: f64 = 0.0f64;
+const DEFAULT_MIN_PRICE: f64 = 0.00000001f64;
 
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
