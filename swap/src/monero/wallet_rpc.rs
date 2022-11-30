@@ -30,6 +30,10 @@ const DOWNLOAD_URL: &str = "https://downloads.getmonero.org/cli/monero-linux-x64
 const DOWNLOAD_URL: &str =
     "https://downloads.getmonero.org/cli/monero-linux-armv7-v0.18.0.0.tar.bz2";
 
+#[cfg(all(target_os = "linux", target_arch = "aarch64"))]
+const DOWNLOAD_URL: &str =
+    "https://downloads.getmonero.org/cli/monero-linux-armv8-v0.18.0.0.tar.bz2";
+
 #[cfg(target_os = "windows")]
 const DOWNLOAD_URL: &str = "https://downloads.getmonero.org/cli/monero-win-x64-v0.18.0.0.zip";
 
