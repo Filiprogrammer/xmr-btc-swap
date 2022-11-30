@@ -31,7 +31,7 @@ jobs:
             os: ubuntu-latest
             archive_ext: tar
           - bin: asb
-            target: armv7-unknown-linux-gnueabihf
+            target: aarch64-unknown-linux-gnueabihf
             os: ubuntu-latest
             archive_ext: tar
           - bin: asb
@@ -56,7 +56,7 @@ jobs:
         with:
           toolchain: stable
           profile: minimal
-          target: armv7-unknown-linux-gnueabihf
+          target: aarch64-unknown-linux-gnueabihf
           override: true
 
       - name: Build ${{ matrix.target }} ${{ matrix.bin }} release binary
@@ -67,7 +67,7 @@ jobs:
           use-cross: true
 
       - name: Smoke test the binary
-        if: matrix.target != 'armv7-unknown-linux-gnueabihf' # armv7-unknown-linux-gnueabihf is only cross-compiled, no smoke test
+        if: matrix.target != 'aarch64-unknown-linux-gnueabihf' # aarch64-unknown-linux-gnueabihf is only cross-compiled, no smoke test
         run: target/${{ matrix.target }}/release/${{ matrix.bin }} --help
 
       # Remove once python 3 is the default
